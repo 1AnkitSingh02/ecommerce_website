@@ -4,9 +4,27 @@ from django.http import JsonResponse
 import json
 import datetime
 
+from django.contrib.auth.forms import UserCreationForm
+
 from .utils import cookieCart, cartData, guestOrder
 
 # Create your views here.
+
+def signup(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+    context={'form': form}
+    return render(request, 'store/signup.html', context)
+
+def login(request):
+    context={}
+    return render(request, 'store/login.html', context)
 
 def store(request):
     data = cartData(request)
